@@ -92,7 +92,7 @@ export async function shopifyFetch<T>({
     if (body.errors) {
       throw body.errors[0];
     }
-
+    console.log('NESTED##############################\n', body);
     return {
       status: result.status,
       body
@@ -300,7 +300,7 @@ export async function getCollectionProducts({
       sortKey: sortKey === 'CREATED_AT' ? 'CREATED' : sortKey
     }
   });
-
+  console.log(res);
   if (!res.body.data.collection) {
     console.log(`No collection found for \`${collection}\``);
     return [];

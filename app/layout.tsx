@@ -34,7 +34,7 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={GeistSans.variable}>
-      <body className="bg-gradient-to-br from-orange-200 to-yellow-600 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
+      <body className=" bg-gradient-to-br from-from to-to text-white selection:bg-pink-500 selection:text-white">
         <Navbar />
         <Suspense>
           <main>{children}</main>

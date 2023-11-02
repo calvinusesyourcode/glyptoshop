@@ -5,6 +5,13 @@ module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      colors: {
+        background: 'rgb(var(--background))',
+        border: 'rgb(var(--border))',
+        from: 'rgb(var(--from))',
+        to: 'rgb(var(--to))',
+        special: 'rgb(var(--special))'
+      },
       fontFamily: {
         sans: ['var(--font-geist-sans)']
       },

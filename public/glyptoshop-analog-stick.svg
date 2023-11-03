@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 398 393">
+
+<defs>
+
+<linearGradient id="b" x1="298.456" y1="300.456" x2="67.939" y2="69.939" gradientUnits="userSpaceOnUse">
+
+<stop offset=".013" stopColor="#c5c6bf"/>
+
+<stop offset=".264" stopColor="#bbbcb5"/>
+
+<stop offset="1" stopColor="#a3a39e"/>
+
+</linearGradient>
+
+</defs>
+
+<circle cx="195" cy="197" r="163" fill="url(#b)" strokeWidth="0"/>
+
+<rect x="78.5" y="152.5" width="233" height="89" rx="9.671" ry="9.671" strokeWidth="0"/>
+
+<rect x="78.5" y="152.5" width="233" height="89" rx="9.671" ry="9.671" transform="translate(-2 392) rotate(-90)" strokeWidth="0"/>
+
+<rect x="150" y="93" width="76" height="214" rx="7.965" ry="7.965" transform="translate(388 12) rotate(90)" fill="#0a0e12" strokeWidth="0"/>
+
+<rect x="154" y="96" width="76" height="214" rx="7.965" ry="7.965" fill="#0a0e12" strokeWidth="0"/>
+
+</svg>
+

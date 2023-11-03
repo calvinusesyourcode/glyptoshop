@@ -1,5 +1,4 @@
-import { Gameboy } from 'components/gameboy';
-import Navbar from 'components/layout/navbar/index';
+import { Carousel } from 'components/carousel';
 import { Suspense } from 'react';
 
 export const runtime = 'edge';
@@ -15,10 +14,7 @@ export default async function HomePage() {
   return (
     <>
       <Suspense>
-        <div className="h-screen overflow-clip">
-          <Navbar />
-          <Gameboy />
-        </div>
+        <Carousel />
       </Suspense>
     </>
   );

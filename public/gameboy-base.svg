@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1940">
+
+
+<defs>
+
+
+<linearGradient id="b" x1="118" y1="942.5" x2="1800" y2="942.5" gradientUnits="userSpaceOnUse">
+
+
+<stop offset="0" stopColor="#30302e"/>
+
+
+<stop offset=".004" stopColor="#3d3e3b"/>
+
+
+<stop offset=".012" stopColor="#62625f"/>
+
+
+<stop offset=".023" stopColor="#9d9e98"/>
+
+
+<stop offset=".03" stopColor="#c5c6bf"/>
+
+
+<stop offset=".202" stopColor="#bcbdb6"/>
+
+
+<stop offset=".482" stopColor="#a4a49f"/>
+
+
+<stop offset=".5" stopColor="#a3a39e"/>
+
+
+<stop offset=".744" stopColor="#b6b7b0"/>
+
+
+<stop offset=".97" stopColor="#c4c5be"/>
+
+
+<stop offset=".974" stopColor="#bfc0b9"/>
+
+
+<stop offset=".979" stopColor="#b1b2ac"/>
+
+
+<stop offset=".985" stopColor="#9a9b95"/>
+
+
+<stop offset=".99" stopColor="#7a7b76"/>
+
+
+<stop offset=".996" stopColor="#52524f"/>
+
+
+<stop offset="1" stopColor="#30302e"/>
+
+
+</linearGradient>
+
+
+</defs>
+
+
+<path d="m162.729,38h1592.541c24.687,0,44.729,20.043,44.729,44.729v1563.249c0,110.947-90.075,201.022-201.022,201.022H162.729c-24.687,0-44.729-20.043-44.729-44.729V82.729c0-24.687,20.043-44.729,44.729-44.729Z" fill="url(#b)" strokeWidth="0"/>
+
+
+</svg>
+
+

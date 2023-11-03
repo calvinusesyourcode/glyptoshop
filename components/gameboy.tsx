@@ -1,26 +1,25 @@
-import { getCollectionProducts } from 'lib/shopify';
-import Link from 'next/link';
-import { GridTileImage } from './grid/tile';
+'use client';
 
-export async function Gameboy() {
-  // Collections that start with `hidden-*` are hidden from the search page.
-  const products = await getCollectionProducts({ collection: 'the-timeless-collection' });
+import { useState } from 'react';
 
-  if (!products?.length) return null;
-
-  // Purposefully duplicating products to make the carousel loop and not run out of products on wide screens.
-  const carouselProducts = [...products, ...products, ...products, ...products, ...products];
-
+export function GamebodyBody({ children }: { children: React.ReactNode }) {
   return (
-    <div className=" no-scrollbar relative w-full pb-6 pt-1">
+    <div className="relative h-screen w-screen overflow-clip">
       <svg
-        id="gameboy-layer-zero"
-        className="absolute top-0 z-10"
+        id="gameboy-body"
+        className="absolute left-0 top-0 z-0"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1822 914"
+        viewBox="0 0 1920 1940"
       >
         <defs>
-          <linearGradient id="b" x1="71" y1="529" x2="1753" y2="529" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="b"
+            x1="118"
+            y1="942.5"
+            x2="1800"
+            y2="942.5"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop offset="0" stopColor="#30302e" />
             <stop offset=".004" stopColor="#3d3e3b" />
             <stop offset=".012" stopColor="#62625f" />
@@ -38,61 +37,161 @@ export async function Gameboy() {
             <stop offset=".996" stopColor="#52524f" />
             <stop offset="1" stopColor="#30302e" />
           </linearGradient>
-          <linearGradient
-            id="c"
-            x1="172"
-            y1="293.5"
-            x2="1654"
-            y2="293.5"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset=".013" stopColor="#565c66" />
-            <stop offset="1" stopColor="#686471" />
-          </linearGradient>
         </defs>
-        <rect
-          x="71"
-          y="26"
-          width="1682"
-          height="1006"
-          rx="44.729"
-          ry="44.729"
+        <path
+          d="m162.729,38h1592.541c24.687,0,44.729,20.043,44.729,44.729v1563.249c0,110.947-90.075,201.022-201.022,201.022H162.729c-24.687,0-44.729-20.043-44.729-44.729V82.729c0-24.687,20.043-44.729,44.729-44.729Z"
           fill="url(#b)"
           strokeWidth="0"
         />
-        <path
-          d="m189.257,62h1447.487c9.524,0,17.257,7.732,17.257,17.257v334.778c0,61.243-49.722,110.965-110.965,110.965H189.257c-9.524,0-17.257-7.732-17.257-17.257V79.257c0-9.524,7.732-17.257,17.257-17.257Z"
-          fill="url(#c)"
-          strokeWidth="0"
-        />
       </svg>
-
-      <div className="absolute left-[15vw] top-[12vh] z-20 h-[40vh] w-[70vw] overflow-clip bg-gradient-to-br from-from to-to">
-        <div className="flex h-full flex-col items-center justify-center">
-          <ul className="flex h-fit animate-carousel gap-4">
-            {carouselProducts.map((product, i) => (
-              <li
-                key={`${product.handle}${i}`}
-                className="relative aspect-square h-[30vh] max-h-[275px] w-fit max-w-[475px] flex-none md:w-1/3"
-              >
-                <Link href={`/product/${product.handle}`} className="relative h-fit w-fit">
-                  <GridTileImage
-                    alt={product.title}
-                    label={{
-                      title: product.title,
-                      amount: product.priceRange.maxVariantPrice.amount,
-                      currencyCode: product.priceRange.maxVariantPrice.currencyCode
-                    }}
-                    src={product.featuredImage?.url}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="absolute left-[10vw] top-[4vw] z-10 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-gradient-to-r from-gray-500 to-gray-600 lg:h-[20vw] lg:rounded-br-[100px]" />
+      <div className="absolute left-[10vw] top-[8vw] z-20 h-full w-[80vw] bg-yellow-500/0 lg:top-[6vw] ">
+        {children}
       </div>
     </div>
+  );
+}
+
+export function GameboyScreen({ children }: { children: React.ReactNode }) {
+  const [buttonA, setButtonA] = useState(false);
+  return (
+    <>
+      <div
+        id="screen-div"
+        className="absolute left-[10vw] top-0 z-30 h-[30vw] w-[60vw] overflow-clip bg-green-400 lg:h-[15vw]"
+      >
+        {children}
+      </div>
+      <div className="absolute right-0 top-[40vw] z-40 h-[30vw] w-[30vw] lg:top-[18vw] lg:h-[20vw] lg:w-[20vw]">
+        <div className="relative">
+          <svg
+            id="gameboy-button-bay"
+            className="absolute"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 443 361"
+          >
+            <defs>
+              <linearGradient
+                id="b"
+                x1="310.809"
+                y1="271.644"
+                x2="124.29"
+                y2="85.126"
+                gradientTransform="translate(-34.722 302.917) rotate(-65.624)"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset=".013" stopColor="#c5c6bf" />
+                <stop offset="1.564" stopColor="#bbbcb5" />
+                <stop offset="5" stopColor="#a3a39e" />
+              </linearGradient>
+            </defs>
+            <rect
+              x="125.189"
+              y="-26.127"
+              width="184.72"
+              height="409.024"
+              rx="92.36"
+              ry="92.36"
+              transform="translate(292.027 -92.912) rotate(66)"
+              fill="url(#b)"
+              strokeWidth="0"
+            />
+          </svg>
+          <button
+            id="gameboy-button-B"
+            className="absolute left-[5vw] top-[10vw] h-full w-full lg:left-[3vw] lg:top-[6vw]"
+          >
+            <RedButton />
+          </button>
+          <button
+            id="gameboy-button-A"
+            className="absolute left-[15vw] top-[5vw] h-full w-full lg:left-[10vw] lg:top-[3vw]"
+          >
+            <RedButton />
+          </button>
+        </div>
+      </div>
+      <div className="absolute left-0 top-[38vw] z-50 h-[30vw] w-[30vw] lg:top-[18vw] lg:h-[20vw] lg:w-[20vw]">
+        <div className="relative">
+          <AnalogStick />
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function RedButton() {
+  return (
+    <svg
+      id="a"
+      className="h-[10vw] w-[10vw] lg:h-[7vw] lg:w-[7vw]"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 152 141"
+    >
+      <ellipse
+        cx="75.31"
+        cy="70.6"
+        rx="67.26"
+        ry="62.94"
+        fill="#a20000"
+        stroke="#000"
+        stroke-miterlimit="10"
+        strokeWidth="5"
+      />
+    </svg>
+  );
+}
+
+export function AnalogStick() {
+  return (
+    <svg id="analog-stick-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398 393">
+      <defs>
+        <linearGradient
+          id="b"
+          x1="298.456"
+          y1="300.456"
+          x2="67.939"
+          y2="69.939"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset=".013" stopColor="#c5c6bf" />
+          <stop offset=".264" stopColor="#bbbcb5" />
+          <stop offset="1" stopColor="#a3a39e" />
+        </linearGradient>
+      </defs>
+      <circle cx="195" cy="197" r="163" fill="url(#b)" strokeWidth="0" />
+      <rect x="78.5" y="152.5" width="233" height="89" rx="9.671" ry="9.671" strokeWidth="0" />
+      <rect
+        x="78.5"
+        y="152.5"
+        width="233"
+        height="89"
+        rx="9.671"
+        ry="9.671"
+        transform="translate(-2 392) rotate(-90)"
+        strokeWidth="0"
+      />
+      <rect
+        x="150"
+        y="93"
+        width="76"
+        height="214"
+        rx="7.965"
+        ry="7.965"
+        transform="translate(388 12) rotate(90)"
+        fill="#0a0e12"
+        strokeWidth="0"
+      />
+      <rect
+        x="154"
+        y="96"
+        width="76"
+        height="214"
+        rx="7.965"
+        ry="7.965"
+        fill="#0a0e12"
+        strokeWidth="0"
+      />
+    </svg>
   );
 }

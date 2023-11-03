@@ -1,0 +1,20 @@
+<svg id="gameboy-button-bay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 443 361">
+
+<defs>
+
+<linearGradient id="b" x1="310.809" y1="271.644" x2="124.29" y2="85.126" gradientTransform="translate(-34.722 302.917) rotate(-65.624)" gradientUnits="userSpaceOnUse">
+
+<stop offset=".013" stopColor="#c5c6bf"/>
+
+<stop offset=".264" stopColor="#bbbcb5"/>
+
+<stop offset="1" stopColor="#a3a39e"/>
+
+</linearGradient>
+
+</defs>
+
+<rect x="125.189" y="-26.127" width="184.72" height="409.024" rx="92.36" ry="92.36" transform="translate(292.027 -92.912) rotate(66)" fill="url(#b)" strokeWidth="0"/>
+
+</svg>
+

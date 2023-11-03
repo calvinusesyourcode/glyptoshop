@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 443 361">
+
+<defs>
+
+<clipPath id="b">
+
+<ellipse cx="297.314" cy="141.603" rx="67.26" ry="62.936" fill="none" strokeWidth="0"/>
+
+</clipPath>
+
+<clipPath id="c">
+
+<rect x="225.054" y="73.667" width="144.52" height="135.872" fill="none" strokeWidth="0"/>
+
+</clipPath>
+
+<clipPath id="d">
+
+<rect x="225.054" y="73.667" width="144.52" height="135.872" fill="none" strokeWidth="0"/>
+
+</clipPath>
+
+</defs>
+
+<g clip-path="url(#b)">
+
+<g clip-path="url(#c)">
+
+<g clip-path="url(#d)">
+
+</g>
+
+</g>
+
+</g>
+
+<ellipse cx="297.314" cy="141.603" rx="67.26" ry="62.936" fill="none" stroke="#000" stroke-miterlimit="10" strokeWidth="5"/>
+
+</svg>
+

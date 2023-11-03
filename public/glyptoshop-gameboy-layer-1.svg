@@ -1,0 +1,40 @@
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1822 1103">
+<defs>
+<linearGradient id="b" x1="71" y1="718" x2="1753" y2="718" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#30302e"/>
+<stop offset="0" stop-color="#3d3e3b"/>
+<stop offset=".01" stop-color="#62625f"/>
+<stop offset=".02" stop-color="#9d9e98"/>
+<stop offset=".03" stop-color="#c5c6bf"/>
+<stop offset=".2" stop-color="#bcbdb6"/>
+<stop offset=".48" stop-color="#a4a49f"/>
+<stop offset=".5" stop-color="#a3a39e"/>
+<stop offset=".74" stop-color="#b6b7b0"/>
+<stop offset=".97" stop-color="#c4c5be"/>
+<stop offset=".97" stop-color="#bfc0b9"/>
+<stop offset=".98" stop-color="#b1b2ac"/>
+<stop offset=".98" stop-color="#9a9b95"/>
+<stop offset=".99" stop-color="#7a7b76"/>
+<stop offset="1" stop-color="#52524f"/>
+<stop offset="1" stop-color="#30302e"/>
+</linearGradient>
+<linearGradient id="c" x1="172" y1="482.5" x2="1654" y2="482.5" gradientUnits="userSpaceOnUse">
+<stop offset=".01" stop-color="#565c66"/>
+<stop offset="1" stop-color="#686471"/>
+</linearGradient>
+<linearGradient id="d" x1="270.39" y1="466.24" x2="1551.61" y2="466.24" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#30302e"/>
+<stop offset=".01" stop-color="#222220" stop-opacity=".71"/>
+<stop offset=".03" stop-color="#000" stop-opacity="0"/>
+<stop offset=".5" stop-color="#000" stop-opacity="0"/>
+<stop offset=".89" stop-color="#000" stop-opacity="0"/>
+<stop offset=".96" stop-color="#000" stop-opacity="0"/>
+<stop offset=".97" stop-color="#060605" stop-opacity=".13"/>
+<stop offset=".99" stop-color="#171716" stop-opacity=".49"/>
+<stop offset="1" stop-color="#30302e"/>
+</linearGradient>
+</defs>
+<path d="m1708.27,1221H115.73c-24.7,0-44.73-20.03-44.73-44.73V259.73c0-24.7,20.03-44.73,44.73-44.73h1592.54c24.7,0,44.73,20.03,44.73,44.73v916.54c0,24.7-20.03,44.73-44.73,44.73Zm-156.66-931.86H270.39v354.19h1281.23v-354.19Z" fill="url(#b)" stroke-width="0"/>
+<path d="m1543.03,714H189.26c-9.53,0-17.26-7.73-17.26-17.26v-428.49c0-9.53,7.73-17.26,17.26-17.26h1447.49c9.53,0,17.26,7.73,17.26,17.26v334.78c0,61.28-49.68,110.97-110.97,110.97Zm8.58-424.86H270.39v354.19h1281.23v-354.19Z" fill="url(#c)" stroke-width="0"/>
+<rect x="270.39" y="289.14" width="1281.23" height="354.19" fill="url(#d)" stroke-width="0"/>
+</svg>

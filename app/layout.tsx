@@ -1,4 +1,3 @@
-import Navbar from 'components/layout/navbar';
 import { GeistSans } from 'geist/font';
 import { ensureStartsWith } from 'lib/utils';
 import { ReactNode, Suspense } from 'react';
@@ -34,8 +33,8 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={GeistSans.variable}>
-      <body className=" bg-gradient-to-br from-from to-to text-white selection:bg-pink-500 selection:text-white">
-        <Navbar />
+      <body className=" bg-black text-white selection:bg-pink-500 selection:text-white">
+        {/* <Navbar /> */}
         <Suspense>
           <main>{children}</main>
         </Suspense>

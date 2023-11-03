@@ -13,7 +13,8 @@ module.exports = {
         special: 'rgb(var(--special))'
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)']
+        sans: ['var(--font-geist-sans)'],
+        redaction: ['redaction']
       },
       keyframes: {
         fadeIn: {

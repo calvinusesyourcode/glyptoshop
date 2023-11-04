@@ -1,6 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+import { NoiseCanvas } from './canvases';
+
+interface GameboyContext {
+  button: string | null;
+  setButton: React.Dispatch<React.SetStateAction<string | null>>;
+  cursorPosition: { x: number; y: number };
+  setCursorPosition: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
+  moveCursor: (xDelta: number, yDelta: number) => void;
+  cursorAxesAvailable: { x: boolean; y: boolean };
+  setCursorAxesAvailable: React.Dispatch<React.SetStateAction<{ x: boolean; y: boolean }>>;
+}
+const GameboyContext = createContext<GameboyContext | null>(null);
+
+export const useGameboyContext = () => useContext(GameboyContext);
 
 export function GamebodyBody({ children }: { children: React.ReactNode }) {
   return (
@@ -44,7 +58,17 @@ export function GamebodyBody({ children }: { children: React.ReactNode }) {
           strokeWidth="0"
         />
       </svg>
+      <div className="flex flex-wrap gap-0 opacity-30 mix-blend-overlay">
+        <NoiseCanvas className="absolute left-0 top-0 z-0 h-full w-full" />
+      </div>
+      {/* <div className='flex gap-0 flex-wrap fixed opacity-100 mix-blend-overlay'> */}
+      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20'/> */}
+      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20 '/> */}
+      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20 '/> */}
+      {/* </div> */}
       <div className="absolute left-[10vw] top-[4vw] z-10 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-gradient-to-r from-gray-500 to-gray-600 lg:h-[20vw] lg:rounded-br-[100px]" />
+      <div className="absolute left-[10vw] top-[4vw] z-10 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-gradient-to-r from-gray-500 to-gray-600 lg:h-[20vw] lg:rounded-br-[100px]"></div>
+
       <div className="absolute left-[10vw] top-[8vw] z-20 h-full w-[80vw] bg-yellow-500/0 lg:top-[6vw] ">
         {children}
       </div>
@@ -52,82 +76,132 @@ export function GamebodyBody({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function GameboyScreen({ children }: { children: React.ReactNode }) {
-  const [buttonA, setButtonA] = useState(false);
+export function GameboyOverlay({ children }: { children: React.ReactNode }) {
+  const [button, setButton] = useState<string | null>(null);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [cursorAxesAvailable, setCursorAxesAvailable] = useState({ x: true, y: false });
+  const moveCursor = (xDelta: number, yDelta: number) => {
+    setCursorPosition((prevCursorPosition) => {
+      return {
+        x: prevCursorPosition.x + (cursorAxesAvailable.x ? xDelta : 0),
+        y: prevCursorPosition.y + (cursorAxesAvailable.y ? yDelta : 0)
+      };
+    });
+  };
   return (
     <>
       <div
         id="screen-div"
         className="absolute left-[10vw] top-0 z-30 h-[30vw] w-[60vw] overflow-clip bg-green-400 lg:h-[15vw]"
       >
-        {children}
+        <GameboyContext.Provider
+          value={{
+            button,
+            setButton,
+            cursorPosition,
+            setCursorPosition,
+            cursorAxesAvailable,
+            setCursorAxesAvailable,
+            moveCursor
+          }}
+        >
+          {children}
+        </GameboyContext.Provider>
       </div>
-      <div className="absolute right-0 top-[40vw] z-40 h-[30vw] w-[30vw] lg:top-[18vw] lg:h-[20vw] lg:w-[20vw]">
+      <div
+        id="buttons-overlay"
+        className="absolute left-0
+        top-[40vw] z-40 flex w-full justify-between lg:top-[18vw]"
+      >
         <div className="relative">
-          <svg
-            id="gameboy-button-bay"
-            className="absolute"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 443 361"
-          >
-            <defs>
-              <linearGradient
-                id="b"
-                x1="310.809"
-                y1="271.644"
-                x2="124.29"
-                y2="85.126"
-                gradientTransform="translate(-34.722 302.917) rotate(-65.624)"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop offset=".013" stopColor="#c5c6bf" />
-                <stop offset="1.564" stopColor="#bbbcb5" />
-                <stop offset="5" stopColor="#a3a39e" />
-              </linearGradient>
-            </defs>
-            <rect
-              x="125.189"
-              y="-26.127"
-              width="184.72"
-              height="409.024"
-              rx="92.36"
-              ry="92.36"
-              transform="translate(292.027 -92.912) rotate(66)"
-              fill="url(#b)"
-              strokeWidth="0"
-            />
-          </svg>
-          <button
-            id="gameboy-button-B"
-            className="absolute left-[5vw] top-[10vw] h-full w-full lg:left-[3vw] lg:top-[6vw]"
-          >
-            <RedButton />
-          </button>
-          <button
-            id="gameboy-button-A"
-            className="absolute left-[15vw] top-[5vw] h-full w-full lg:left-[10vw] lg:top-[3vw]"
-          >
-            <RedButton />
-          </button>
+          <AnalogStick className="h-[12vw] w-[12vw]" />
         </div>
-      </div>
-      <div className="absolute left-0 top-[38vw] z-50 h-[30vw] w-[30vw] lg:top-[18vw] lg:h-[20vw] lg:w-[20vw]">
-        <div className="relative">
-          <AnalogStick />
+        <div className="relative pr-[20vw]">
+          <GameboyButtonBay className="absolute h-[20vw] w-[20vw]" />
+          <div className="absolute">
+            <button
+              id="gameboy-button-B"
+              className="h-fit w-fit translate-x-[3vw] translate-y-[4vw] transform rounded-full"
+            >
+              <RedButton className="h-[10vw] w-[10vw] " />
+            </button>
+            <button
+              id="gameboy-button-A"
+              className="h-fit w-fit translate-x-[3vw] translate-y-[4vw] transform rounded-full"
+            >
+              <RedButton className="h-[10vw] w-[10vw] lg:h-[7vw] lg:w-[7vw]" />
+            </button>
+          </div>
         </div>
       </div>
     </>
   );
 }
 
-export function RedButton() {
+export function GameboyScreen({
+  children,
+  products,
+  ui
+}: {
+  children?: React.ReactNode;
+  products: any;
+  ui: 'collection' | 'product';
+}) {
+  const {
+    button,
+    setButton,
+    cursorPosition,
+    setCursorPosition,
+    cursorAxesAvailable,
+    setCursorAxesAvailable,
+    moveCursor
+  } = useGameboyContext()!;
+
+  const cursorColumns = ui === 'collection' ? products.length : 1;
+  const cursorRows = 1;
   return (
-    <svg
-      id="a"
-      className="h-[10vw] w-[10vw] lg:h-[7vw] lg:w-[7vw]"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 152 141"
-    >
+    <>
+      <div
+        id="gameboy-screen"
+        className="flex h-full w-full items-start justify-start gap-2 p-[2vw]"
+      >
+        <span
+          className={`rounded p-2 text-[5vw] ${
+            cursorPosition.x % cursorColumns == 0 ? 'border bg-black' : ''
+          }`}
+        >
+          1
+        </span>
+        <span
+          className={`rounded p-2 text-[5vw] ${
+            cursorPosition.x % cursorColumns == 2 ? 'border bg-black' : ''
+          }`}
+        >
+          3
+        </span>
+        <span
+          className={`rounded p-2 text-[5vw] ${
+            cursorPosition.x % cursorColumns == 1 ? 'border bg-black' : ''
+          }`}
+        >
+          2
+        </span>
+        <span
+          className={`rounded p-2 text-[5vw] ${
+            cursorPosition.x % cursorColumns == 3 ? 'border bg-black' : ''
+          }`}
+        >
+          4
+        </span>
+      </div>
+    </>
+  );
+}
+
+// SVGs
+export function RedButton(props: any) {
+  return (
+    <svg id="red-button-svg" {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 152 141">
       <ellipse
         cx="75.31"
         cy="70.6"
@@ -141,10 +215,9 @@ export function RedButton() {
     </svg>
   );
 }
-
-export function AnalogStick() {
+export function AnalogStick(props: any) {
   return (
-    <svg id="analog-stick-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398 393">
+    <svg id="analog-stick-svg" {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398 393">
       <defs>
         <linearGradient
           id="b"
@@ -190,6 +263,43 @@ export function AnalogStick() {
         rx="7.965"
         ry="7.965"
         fill="#0a0e12"
+        strokeWidth="0"
+      />
+    </svg>
+  );
+}
+export function GameboyButtonBay(props: any) {
+  return (
+    <svg
+      id="gameboy-button-bay-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 443 361"
+      {...props}
+    >
+      <defs>
+        <linearGradient
+          id="b"
+          x1="310.809"
+          y1="271.644"
+          x2="124.29"
+          y2="85.126"
+          gradientTransform="translate(-34.722 302.917) rotate(-65.624)"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset=".013" stopColor="#c5c6bf" />
+          <stop offset="1.564" stopColor="#bbbcb5" />
+          <stop offset="5" stopColor="#a3a39e" />
+        </linearGradient>
+      </defs>
+      <rect
+        x="125.189"
+        y="-26.127"
+        width="184.72"
+        height="409.024"
+        rx="92.36"
+        ry="92.36"
+        transform="translate(292.027 -92.912) rotate(66)"
+        fill="url(#b)"
         strokeWidth="0"
       />
     </svg>

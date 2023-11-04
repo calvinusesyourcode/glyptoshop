@@ -1,7 +1,8 @@
-import { GamebodyBody, GameboyScreen } from 'components/gameboy';
+import { GamebodyBody, GameboyOverlay } from 'components/gameboy';
 import Navbar from 'components/layout/navbar';
 import { GeistSans } from 'geist/font';
 import { ensureStartsWith } from 'lib/utils';
+import Image from 'next/image';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
@@ -40,8 +41,16 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Suspense>
           <main>
             <Navbar />
+            <Image
+              alt="fuck"
+              src="/../public/gameboy-handheld-grain02.png"
+              height={100}
+              width={100}
+              className="absolute h-[200px] w-[200px]"
+            />
+
             <GamebodyBody>
-              <GameboyScreen>{children}</GameboyScreen>
+              <GameboyOverlay>{children}</GameboyOverlay>
             </GamebodyBody>
           </main>
         </Suspense>

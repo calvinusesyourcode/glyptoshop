@@ -1,4 +1,4 @@
-import { Carousel } from 'components/carousel';
+import { GameboyScreen } from 'components/gameboy';
 import { Suspense } from 'react';
 
 export const runtime = 'edge';
@@ -11,10 +11,11 @@ export const metadata = {
 };
 
 export default async function HomePage() {
+  // const products = await getCollectionProducts({ collection: 'the-timeless-collection' })
   return (
     <>
       <Suspense>
-        <Carousel />
+        <GameboyScreen products={['1', '2']} ui="collection" />
       </Suspense>
     </>
   );

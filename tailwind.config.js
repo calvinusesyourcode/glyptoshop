@@ -29,12 +29,17 @@ module.exports = {
           '0%': { opacity: 0.2 },
           '20%': { opacity: 1 },
           '100% ': { opacity: 0.2 }
+        },
+        comeDown: {
+          '0%': { transform: 'translateY(-10%)' },
+          '100%': { transform: 'translateY(0%)' }
         }
       },
       animation: {
         fadeIn: 'fadeIn .3s ease-in-out',
         carousel: 'marquee 60s linear infinite',
-        blink: 'blink 1.4s both infinite'
+        blink: 'blink 1.4s both infinite',
+        comeDown: 'comeDown 1s ease-in-out'
       }
     }
   },

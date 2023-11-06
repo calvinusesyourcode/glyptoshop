@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { NoiseCanvas } from './canvases';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import CRTSimulation, { NoiseCanvas } from './canvases';
 
 interface GameboyContext {
   button: string | null;
@@ -16,9 +16,51 @@ const GameboyContext = createContext<GameboyContext | null>(null);
 
 export const useGameboyContext = () => useContext(GameboyContext);
 
-export function GamebodyBody({ children }: { children: React.ReactNode }) {
+export function Gamebody({ children }: { children: React.ReactNode }) {
+  const [button, setButton] = useState<string | null>(null);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [cursorAxesAvailable, setCursorAxesAvailable] = useState({ x: true, y: false });
+
+  const moveCursor = (xDelta: number, yDelta: number) => {
+    setCursorPosition((prevCursorPosition) => {
+      return {
+        x: Math.max(0, prevCursorPosition.x + (cursorAxesAvailable.x ? xDelta : 0)),
+        y: Math.max(0, prevCursorPosition.y + (cursorAxesAvailable.y ? yDelta : 0))
+      };
+    });
+  };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowUp':
+        case 'w':
+          moveCursor(0, -1);
+          break;
+        case 'ArrowDown':
+        case 's':
+          moveCursor(0, 1);
+          break;
+        case 'ArrowLeft':
+        case 'a':
+          moveCursor(-1, 0);
+          break;
+        case 'ArrowRight':
+        case 'd':
+          moveCursor(1, 0);
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [cursorAxesAvailable]);
+
   return (
-    <div className="relative h-screen w-screen overflow-clip">
+    <div className="relative h-screen w-screen overflow-clip bg-black">
       <svg
         id="gameboy-body"
         className="absolute left-0 top-0 z-0"
@@ -58,85 +100,141 @@ export function GamebodyBody({ children }: { children: React.ReactNode }) {
           strokeWidth="0"
         />
       </svg>
-      <div className="flex flex-wrap gap-0 opacity-30 mix-blend-overlay">
-        <NoiseCanvas className="absolute left-0 top-0 z-0 h-full w-full" />
-      </div>
-      {/* <div className='flex gap-0 flex-wrap fixed opacity-100 mix-blend-overlay'> */}
-      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20'/> */}
-      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20 '/> */}
-      {/* <img src="/gameboy-handheld-grain02.png" height="100px" width="100px" className='w-[100vw] h-[20vw] opacity-20 '/> */}
-      {/* </div> */}
-      <div className="absolute left-[10vw] top-[4vw] z-10 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-gradient-to-r from-gray-500 to-gray-600 lg:h-[20vw] lg:rounded-br-[100px]" />
-      <div className="absolute left-[10vw] top-[4vw] z-10 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-gradient-to-r from-gray-500 to-gray-600 lg:h-[20vw] lg:rounded-br-[100px]"></div>
-
-      <div className="absolute left-[10vw] top-[8vw] z-20 h-full w-[80vw] bg-yellow-500/0 lg:top-[6vw] ">
-        {children}
+      <div id="gameboy-layer-3" className="absolute h-full w-full ">
+        <NoiseCanvas className="absolute left-0 top-0 z-30 flex h-full w-full flex-wrap gap-0 opacity-20 mix-blend-overlay" />
+        <div id="gameboy-layer-4" className="absolute left-[10vw] top-[4vw] h-full w-[80vw]">
+          <div
+            id="gameboy-layer-5"
+            className="absolute left-0 top-0 z-30 h-[40vw] w-[80vw] rounded-xl rounded-br-[30px] bg-[#0b0b0b] lg:h-[20vw] lg:rounded-br-[100px]"
+          >
+            <CRTSimulation className="absolute left-[10vw] top-[4vw] z-40 h-[30vw] w-[60vw] overflow-clip lg:h-[15vw]" />
+            <div
+              id="screen-div"
+              className="absolute left-[10vw] top-[4vw] z-30 h-[30vw] w-[60vw] overflow-clip bg-[#979A4A]  lg:h-[15vw]"
+            >
+              <span className="text-2xl">{JSON.stringify(cursorPosition)}</span>
+              <GameboyContext.Provider
+                value={{
+                  button,
+                  setButton,
+                  cursorPosition,
+                  setCursorPosition,
+                  cursorAxesAvailable,
+                  setCursorAxesAvailable,
+                  moveCursor
+                }}
+              >
+                {children}
+              </GameboyContext.Provider>
+            </div>
+          </div>
+          <div
+            id="buttons-overlay"
+            className="absolute left-0 top-[42vw] z-40 flex w-full justify-between lg:top-[18vw]"
+          >
+            <div className="relative">
+              {/* <AnalogStick className="h-[12vw] w-[12vw]" /> */}
+              <div className="grid grid-cols-3 grid-rows-3 gap-0">
+                <button
+                  className="col-start-2 rounded bg-black px-[3vw] py-[2vw] text-black"
+                  onClick={() => {
+                    moveCursor(0, -1);
+                  }}
+                >
+                  o
+                </button>{' '}
+                {/* 1st row, 2nd column */}
+                <button
+                  className="col-start-1 rounded bg-black px-[3vw] py-[2vw] text-black"
+                  onClick={() => {
+                    moveCursor(-1, 0);
+                  }}
+                >
+                  o
+                </button>{' '}
+                {/* 2nd row, 1st column */}
+                <button
+                  className="col-start-3 rounded bg-black px-[3vw] py-[2vw] text-black"
+                  onClick={() => {
+                    moveCursor(1, 0);
+                  }}
+                >
+                  o
+                </button>{' '}
+                {/* 2nd row, 3rd column */}
+                <button
+                  className="col-start-2 rounded bg-black px-[3vw] py-[2vw] text-black"
+                  onClick={() => {
+                    moveCursor(0, -1);
+                  }}
+                >
+                  o
+                </button>{' '}
+                {/* 3rd row, 2nd column */}
+              </div>
+            </div>
+            <div className="relative">
+              {/* <GameboyButtonBay className="absolute z-10 h-[20vw] w-[20vw]" /> */}
+              <div className="grid grid-cols-2 grid-rows-2 gap-0">
+                <button id="gameboy-button-B" className="col-start-2 h-fit w-fit rounded-full">
+                  <RedButton className="h-[10vw] w-[10vw] " />
+                </button>
+                <button id="gameboy-button-A" className="col-start-1 h-fit w-fit rounded-full">
+                  <RedButton className="h-[10vw] w-[10vw]" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export function GameboyOverlay({ children }: { children: React.ReactNode }) {
-  const [button, setButton] = useState<string | null>(null);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [cursorAxesAvailable, setCursorAxesAvailable] = useState({ x: true, y: false });
-  const moveCursor = (xDelta: number, yDelta: number) => {
-    setCursorPosition((prevCursorPosition) => {
-      return {
-        x: prevCursorPosition.x + (cursorAxesAvailable.x ? xDelta : 0),
-        y: prevCursorPosition.y + (cursorAxesAvailable.y ? yDelta : 0)
-      };
-    });
-  };
-  return (
-    <>
-      <div
-        id="screen-div"
-        className="absolute left-[10vw] top-0 z-30 h-[30vw] w-[60vw] overflow-clip bg-green-400 lg:h-[15vw]"
-      >
-        <GameboyContext.Provider
-          value={{
-            button,
-            setButton,
-            cursorPosition,
-            setCursorPosition,
-            cursorAxesAvailable,
-            setCursorAxesAvailable,
-            moveCursor
-          }}
-        >
-          {children}
-        </GameboyContext.Provider>
-      </div>
-      <div
-        id="buttons-overlay"
-        className="absolute left-0
-        top-[40vw] z-40 flex w-full justify-between lg:top-[18vw]"
-      >
-        <div className="relative">
-          <AnalogStick className="h-[12vw] w-[12vw]" />
-        </div>
-        <div className="relative pr-[20vw]">
-          <GameboyButtonBay className="absolute h-[20vw] w-[20vw]" />
-          <div className="absolute">
-            <button
-              id="gameboy-button-B"
-              className="h-fit w-fit translate-x-[3vw] translate-y-[4vw] transform rounded-full"
-            >
-              <RedButton className="h-[10vw] w-[10vw] " />
-            </button>
-            <button
-              id="gameboy-button-A"
-              className="h-fit w-fit translate-x-[3vw] translate-y-[4vw] transform rounded-full"
-            >
-              <RedButton className="h-[10vw] w-[10vw] lg:h-[7vw] lg:w-[7vw]" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+// export function GameboyScreen({
+//   children,
+//   products,
+//   ui
+// }: {
+//   children?: React.ReactNode;
+//   products: any;
+//   ui: 'collection' | 'product';
+// }) {
+//   const {
+//     button,
+//     setButton,
+//     cursorPosition,
+//     setCursorPosition,
+//     cursorAxesAvailable,
+//     setCursorAxesAvailable,
+//     moveCursor
+//   } = useGameboyContext()!;
+
+//   const cursorColumns = ui === 'collection' ? products.length : 1;
+//   const cursorRows = 1;
+//   //${`animation-delay-${i * 100}`}
+//   return (
+//     <>
+//       <div
+//         id="gameboy-screen"
+//         className="flex h-full w-full items-start justify-start gap-2 p-[2vw]"
+//       >
+//         {products.map((_: any, i: number) => (
+//           <button
+//             key={i}
+//             className={`rounded p-2 text-[5vw]
+//             transition duration-300 ease-in-out animate-comeDown delay-${i * 100}
+
+//             ${cursorPosition.x % cursorColumns === i ? 'border bg-black' : ''}
+//             `}
+//           >
+//             {i + 1}
+//           </button>
+//         ))}
+//       </div>
+//     </>
+//   );
+// }
 
 export function GameboyScreen({
   children,
@@ -157,44 +255,53 @@ export function GameboyScreen({
     moveCursor
   } = useGameboyContext()!;
 
+  const buttonsRef = useRef<any>([]);
+
+  const focusClass = 'translate-y-[-10%]';
+  const borderClass = 'border-2';
+
   const cursorColumns = ui === 'collection' ? products.length : 1;
-  const cursorRows = 1;
+
+  // Focus the button when the cursorPosition changes
+  useEffect(() => {
+    const buttonToFocus = buttonsRef.current[cursorPosition.x % cursorColumns];
+    setTimeout(() => {
+      if (buttonToFocus) {
+        // buttonToFocus.classList.add(focusClass);
+        // buttonToFocus.classList.add(borderClass);
+        buttonToFocus.focus();
+      }
+    }, 300);
+
+    // Clean up the focus class when the component unmounts or when the cursor moves
+    return () => {
+      if (buttonToFocus) {
+        // buttonToFocus.classList.remove(focusClass);
+        // buttonToFocus.classList.remove(borderClass);
+      }
+    };
+  }, [cursorPosition, cursorColumns]);
+
   return (
-    <>
-      <div
-        id="gameboy-screen"
-        className="flex h-full w-full items-start justify-start gap-2 p-[2vw]"
-      >
-        <span
-          className={`rounded p-2 text-[5vw] ${
-            cursorPosition.x % cursorColumns == 0 ? 'border bg-black' : ''
-          }`}
+    <div
+      id="gameboy-screen"
+      className="flex h-full w-full items-start justify-start gap-2 p-[4dvw]"
+    >
+      {products.map((product: any, i: number) => (
+        <button
+          key={i}
+          ref={(el) => (buttonsRef.current[i] = el)}
+          className={`p-3 font-redaction text-[3vw] font-bold text-black
+          transition-transform delay-100 duration-300 ease-in-out
+           focus:translate-y-[-10%] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-black
+           focus-visible:translate-y-[-10%] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-black
+          `}
+          // Remove onFocus and onBlur if you're handling the focus with cursorPosition
         >
-          1
-        </span>
-        <span
-          className={`rounded p-2 text-[5vw] ${
-            cursorPosition.x % cursorColumns == 2 ? 'border bg-black' : ''
-          }`}
-        >
-          3
-        </span>
-        <span
-          className={`rounded p-2 text-[5vw] ${
-            cursorPosition.x % cursorColumns == 1 ? 'border bg-black' : ''
-          }`}
-        >
-          2
-        </span>
-        <span
-          className={`rounded p-2 text-[5vw] ${
-            cursorPosition.x % cursorColumns == 3 ? 'border bg-black' : ''
-          }`}
-        >
-          4
-        </span>
-      </div>
-    </>
+          {product.tags[0]}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -209,7 +316,7 @@ export function RedButton(props: any) {
         ry="62.94"
         fill="#a20000"
         stroke="#000"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeWidth="5"
       />
     </svg>

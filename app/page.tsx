@@ -1,4 +1,5 @@
 import { GameboyScreen } from 'components/gameboy';
+import { getCollectionProducts } from 'lib/shopify';
 import { Suspense } from 'react';
 
 export const runtime = 'edge';
@@ -11,11 +12,12 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  // const products = await getCollectionProducts({ collection: 'the-timeless-collection' })
+  const products = await getCollectionProducts({ collection: 'hidden-homepage-collection' });
+  // console.log(JSON.stringify(products))
   return (
     <>
       <Suspense>
-        <GameboyScreen products={['1', '2']} ui="collection" />
+        <GameboyScreen products={products} ui="collection" />
       </Suspense>
     </>
   );
